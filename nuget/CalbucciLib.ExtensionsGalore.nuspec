@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>CalbucciLib.ExtensionsGalore</id>
+        <version>0.1.1</version>
+        <title>Extensions Galore</title>
+        <authors>Marcelo Calbucci</authors>
+        <projectUrl>http://github.com/calbucci/CalbucciLib.ExtensionsGalore</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>More than 100 commonly used extensions for built-in types and classes in .NET. All Open Source.</description>
+    </metadata>
+    <files>
+        <file src="..\src\CalbucciLib.ExtensionsGalore\bin\Release\CalbucciLib.ExtensionsGalore.dll" target="lib\net45\CalbucciLib.ExtensionsGalore.dll" />
+    </files>
+</package>
