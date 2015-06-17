@@ -69,13 +69,7 @@ The best explanation is the source code :). I've added summary meta-data to most
 * **FromUnixTime/ToUnixTime**: Converts to a Unix-time number
 * **ToRelativeTime**: Written version of TimeSpan (e.g. "in 3 minutes" or "7 days ago")
 * **IsBetween**: Check if a date is between two other dates
-* *Compare*: Compare DateTime objects using varied precisions.
-  * **CompareUpToSeconds**: Compare ignoring milliseconds.
-  * **CompareUpToMinutes**: Compare ignoring seconds & ms.
-  * **CompareUpToHours**: Compare ignoring minutes, seconds & ms.
-  * **CompareUpToDays**: Compare only the Date component (ignoring time of day).
-  * **CompareUpToMonth**: Compare only year and month.
-  * **CompareUpToYear**: Compare only year.
+* **CompareTo**: Compare DateTime up to a desired precision (Year, Month, Day, Hour, Minute, Seconds).
 * *Day of month*:
   * **GetFirstDayOfMonth**: Returns the first day of a month (supports a DayOfWeek)
   * **GetFirstDayOfPreviousMonth**: Returns the first day of the previous month
