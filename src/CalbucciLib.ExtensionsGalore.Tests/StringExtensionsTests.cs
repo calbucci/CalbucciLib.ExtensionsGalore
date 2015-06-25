@@ -599,7 +599,8 @@ namespace CalbucciLib.ExtensionsGalore.Tests
 				"  \t", "  \t",
 				"Bob", "Bob",
 				"Açucar", "Acucar",
-				"Sãüñôr", "Saunor"
+				"Sãüñôr", "Saunor",
+				"ööü", "oou"
 			};
 
 			for (int i = 0; i < tests.Length; i+=2)
@@ -1413,6 +1414,74 @@ namespace CalbucciLib.ExtensionsGalore.Tests
 				}
 			}
 
+		}
+
+		private enum EnumTest
+		{
+			One = 1,
+			Two = 2,
+			Three = 3
+		};
+
+		[Flags]
+		private enum EnumFlagsTest:byte
+		{
+			First = 0x01,
+			Second = 0x02,
+			Third = 0x04,
+
+			FirstAndSecond = First | Second,
+			All = First | Second | Third,
+		}
+
+		[TestMethod()]
+		public void ToEnumTest()
+		{
+
+			List<Tuple<string, EnumTest>> tests = new List<Tuple<string, EnumTest>>
+			{
+				Tuple.Create((string)null, EnumTest.One),
+				Tuple.Create("", EnumTest.One),
+				Tuple.Create("\t", EnumTest.One),
+				Tuple.Create("nada", EnumTest.One),
+				Tuple.Create("one", EnumTest.One),
+				Tuple.Create(" two\t", EnumTest.Two),
+				Tuple.Create("Three", EnumTest.Three),
+			};
+
+			foreach (var test in tests)
+			{
+				var expected = test.Item2;
+				var actual = test.Item1.ToEnum(EnumTest.One);
+				Assert.AreEqual(expected, actual, test.Item1);
+			}
+
+			List<Tuple<string, EnumFlagsTest>> tests2 = new List<Tuple<string, EnumFlagsTest>>
+			{
+				Tuple.Create((string)null, EnumFlagsTest.First),
+				Tuple.Create("", EnumFlagsTest.First),
+				Tuple.Create(" ", EnumFlagsTest.First),
+				Tuple.Create("first", EnumFlagsTest.First),
+				Tuple.Create(" second ", EnumFlagsTest.Second),
+				Tuple.Create("firstandsecond", EnumFlagsTest.FirstAndSecond),
+				Tuple.Create("firstandsecond", EnumFlagsTest.First | EnumFlagsTest.Second),
+				Tuple.Create("third", EnumFlagsTest.Third),
+				Tuple.Create("7", EnumFlagsTest.All),
+				Tuple.Create("all", EnumFlagsTest.All),
+				Tuple.Create("6", EnumFlagsTest.Second | EnumFlagsTest.Third),
+				
+			};
+
+			foreach (var test in tests2)
+			{
+				var expected = test.Item2;
+				var actual = test.Item1.ToEnum(EnumFlagsTest.First);
+
+				Assert.AreEqual(expected, actual, test.Item1);
+			}
+
+
+			
 		}
 	}
 

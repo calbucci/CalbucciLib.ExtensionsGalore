@@ -70,6 +70,7 @@ The best explanation is the source code :). I've added summary meta-data to most
 * **ToRelativeTime**: Written version of TimeSpan (e.g. "in 3 minutes" or "7 days ago")
 * **IsBetween**: Check if a date is between two other dates
 * **CompareTo**: Compare DateTime up to a desired precision (Year, Month, Day, Hour, Minute, Seconds).
+* **ElapsedToNow**: Returns the TimeSpan between the date and now (always a positive TimeSpan)
 * *Day of month*:
   * **GetFirstDayOfMonth**: Returns the first day of a month (supports a DayOfWeek)
   * **GetFirstDayOfPreviousMonth**: Returns the first day of the previous month
@@ -177,6 +178,7 @@ The best explanation is the source code :). I've added summary meta-data to most
  * **ToBytesFromBase62**: Converts a base 62 string into a byte array.
  * **ToBytesFromHex**: Converts a hex-encoded string into a byte array.
  * **ToInt/ToLong/ToDouble/ToDecimal/ToFloat**: Converts the string to int/long/double/decimal/float. A lot more flexible than int.Parse and it returns 0 if it can't parse it.
+ * **ToEnum(T)**: Converts the string to an Enum type.
  * **ToListFromCsvLine**: Converts a string that is a line in a CSV file into a list of field values.
  * **ToListFromTabDelimitedLine**: Converts a string that is a line in a Tab-delimited file into a list of field values.
 

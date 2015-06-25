@@ -1022,40 +1022,33 @@ namespace CalbucciLib.ExtensionsGalore
 		//   Transform
 		//
 		// ==========================================================================
+		/// <summary>
+		/// Remove the accents (diacritics) from the text
+		/// </summary>
 		public static string RemoveAccents(this String str)
 		{
+			// Originally from http://stackoverflow.com/a/249126/603637
 			if (string.IsNullOrWhiteSpace(str))
 				return str;
 
-			char[] result = null;
-			for(int i = 0; i < str.Length; i++)
-			{
-				var ch = str[i];
-				var ch2 = ch.RemoveAccent();
-				if (result == null)
-				{
-					if (ch != ch2)
-					{
-						// Break the string
-						result = new char[str.Length];
-						// Copy everything up to this point
-						if (i > 0)
-						{
-							str.CopyTo(0, result, 0, i);
-						}
-					}
-					else
-					{
-						continue;
-					}
-				}
-				result[i] = ch2;
-			}
+			var normalizedString = str.Normalize(NormalizationForm.FormD);
+			StringBuilder sb = null;
 
-			if (result == null)
+			foreach (var c in normalizedString)
+			{
+				var unicodeCategory = CharUnicodeInfo.GetUnicodeCategory(c);
+				if (unicodeCategory != UnicodeCategory.NonSpacingMark)
+				{
+					if (sb == null)
+						sb = new StringBuilder(str.Length);
+					sb.Append(c);
+				}
+			}
+			if (sb == null || sb.Length == 0)
 				return str;
 
-			return new string(result);
+			return sb.ToString().Normalize(NormalizationForm.FormC);
+
 		}
 
 		public static string Transliterate(this String str)
@@ -1659,6 +1652,23 @@ namespace CalbucciLib.ExtensionsGalore
 			}
 
 			return 0;
+		}
+
+		static public T ToEnum<T>(this string value, T defaultValue = default(T))
+		{
+			if (string.IsNullOrWhiteSpace(value))
+				return defaultValue;
+
+			value = value.Trim();
+			try
+			{
+				var result = (T)Enum.Parse(typeof(T), value, true);
+				return result;
+			}
+			catch
+			{
+				return defaultValue;
+			}
 		}
 
 		static public List<string> ToListFromCsvLine(this String str)

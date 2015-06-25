@@ -291,6 +291,14 @@ namespace CalbucciLib.ExtensionsGalore
 		//   Calendar
 		//
 		// ==========================================================================
+		public static TimeSpan ElapsedToNow(this DateTime dateTime)
+		{
+			var utc = DateTime.UtcNow;
+			if (utc < dateTime)
+				return dateTime - utc;
+			return utc - dateTime;
+		}
+
 		public static DateTime GetFirstDayOfMonth(this DateTime date)
 		{
 			return new DateTime(date.Year, date.Month, 1, 0, 0, 0, date.Kind);

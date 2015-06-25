@@ -570,5 +570,33 @@ namespace CalbucciLib.ExtensionsGalore.Tests
 				Assert.AreEqual(expected, actual);
 			}
 		}
+
+		[TestMethod()]
+		public void ElapsedToNowTest()
+		{
+			List<TimeSpan> tests = new List<TimeSpan>
+			{
+				TimeSpan.FromSeconds(1),
+				TimeSpan.FromHours(27),
+				TimeSpan.FromDays(360),
+				
+				TimeSpan.FromSeconds(-1),
+				TimeSpan.FromHours(-27),
+				TimeSpan.FromDays(-360),
+			};
+
+			foreach (var test in tests)
+			{
+				var utc = DateTime.UtcNow;
+				var date = utc.Add(test);
+
+				var elapsed = date.ElapsedToNow();
+
+				var delta = elapsed.TotalMilliseconds - Math.Abs(test.TotalMilliseconds);
+				Assert.IsTrue(delta < 1, "Delta: " + delta + "/" + test.ToString());
+			}
+
+			
+		}
 	}
 }
