@@ -121,7 +121,20 @@ namespace CalbucciLib.ExtensionsGalore
 				new[] { "&lt;", "&gt;", "&amp;"}, false);
 		}
 
-		public static string HtmlDecode(this String str)
+        /// <summary>
+        /// Encodes a string to be HTML safe to be used inside a PRE element.
+        /// </summary>
+	    public static string HtmlEncodePre(this String str)
+	    {
+	        if (string.IsNullOrEmpty(str))
+	            return "";
+
+            return EscapeCharacters(str,
+                "<>&\"\n\r\t",
+                new[] { "&lt;", "&gt;", "&amp;", "&quot;", "<br>", "", "&nbsp;&nbsp;&nbsp;&nbsp;" }, false);
+        }
+
+        public static string HtmlDecode(this String str)
 		{
 			if (string.IsNullOrEmpty(str))
 				return "";
@@ -569,7 +582,21 @@ namespace CalbucciLib.ExtensionsGalore
 			return str.Any(char.IsUpper);
 		}
 
-		public static bool ContainsAny(this String str, IList<string> matchList, 
+	    public static bool EqualsAny(this String str, IList<string> matchList,
+	        StringComparison stringComparison = StringComparison.InvariantCultureIgnoreCase)
+	    {
+            if (string.IsNullOrEmpty(str) || matchList == null || matchList.Count == 0)
+                return false;
+
+	        return matchList.Any(m => !string.IsNullOrEmpty(m) && str.Equals(m, stringComparison));
+	    }
+
+	    public static bool EqualsAny(this String str, params string[] matchList)
+	    {
+	        return EqualsAny(str, matchList, StringComparison.InvariantCultureIgnoreCase);
+	    }
+
+        public static bool ContainsAny(this String str, IList<string> matchList, 
 			StringComparison stringComparison = StringComparison.InvariantCultureIgnoreCase)
 		{
 			if (string.IsNullOrEmpty(str) || matchList == null || matchList.Count == 0)
@@ -577,6 +604,11 @@ namespace CalbucciLib.ExtensionsGalore
 
 			return matchList.Any(m => !string.IsNullOrEmpty(m) && str.IndexOf(m, stringComparison) >= 0);
 		}
+
+	    public static bool ContainsAny(this String str, params string[] matchList)
+	    {
+	        return ContainsAny(str, matchList, StringComparison.InvariantCultureIgnoreCase);
+	    }
 
 		public static bool ContainsAny(this String str, char[] chars)
 		{
@@ -1273,6 +1305,61 @@ namespace CalbucciLib.ExtensionsGalore
 		//{
 		//	throw new NotImplementedException();
 		//}
+
+	    public static string MakeUrlSegmentSafe(this string text, int maxLength = 50)
+	    {
+	        if (string.IsNullOrWhiteSpace(text))
+	            return null;
+
+            StringBuilder sb = new StringBuilder(maxLength);
+	        bool lastSeparator = true;
+	        foreach (var c in text)
+	        {
+	            if (c <= 32 || char.IsWhiteSpace(c) || char.IsControl(c))
+	            {
+	                if (lastSeparator)
+	                    continue;
+                    if (sb.Length == maxLength - 1)
+                        break;
+	                lastSeparator = true;
+	                sb.Append("-");
+	                continue;
+	            }
+	            var c2 = c.RemoveAccent();
+	            var c3 = c2.Transliterate();
+	            foreach (var cc3 in c3)
+	            {
+                    if (cc3.IsASCIILetterOrDigit())
+	                {
+	                    sb.Append(cc3);
+                        lastSeparator = false;
+                    }
+	                else if("_-.~".IndexOf(cc3) >= 0)
+	                {
+	                    sb.Append(cc3);
+	                    lastSeparator = true;
+	                }
+	                else
+	                {
+	                    sb.Append(((int) cc3).ToHex());
+                        lastSeparator = false;
+                    }
+	                if (sb.Length >= maxLength)
+	                    break;
+	                
+	            }
+	        }
+
+	        while (sb.Length > 0 && sb[sb.Length - 1] == '-')
+	        {
+	            sb.Remove(sb.Length - 1, 1);
+	        }
+
+	        if (sb.Length == 0)
+	            return null;
+
+	        return sb.ToString();
+	    }
 
 
 		// ==========================================================================
