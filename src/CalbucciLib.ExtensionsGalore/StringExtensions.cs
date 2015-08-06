@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.ModelBinding;
 using Microsoft.SqlServer.Server;
 using Microsoft.Win32.SafeHandles;
 
@@ -1178,53 +1179,43 @@ namespace CalbucciLib.ExtensionsGalore
 			int len = str.Length;
 			StringBuilder sb = null;
 
-			bool prevWhitespace = true;
-
 			int start = str.IndexOfNonWhitespace(), i;
 			if (start < 0)
 				return "";
 
 			if (start > 0)
 			{
-				sb = new StringBuilder(str.Length);
+				sb = new StringBuilder(str.Length - start);
 			}
 			for(i = start; i < len ; i++)
 			{
 				char c = str[i];
-				if (char.IsWhiteSpace(c) || char.IsControl(c))
-				{
-					if (prevWhitespace)
-					{
-						if (sb == null)
-						{
-							sb = new StringBuilder(str.Length);
-						}
-						sb.Append(str, start, i - start - 1);
-						start = i;
-						continue;
-					}
-					
-					prevWhitespace = true;
-				}
-				else
-				{
-					prevWhitespace = false;
-					
-				}
-			}
+			    if (char.IsWhiteSpace(c) || char.IsControl(c))
+			    {
+			        var segmentLength = i - start;
+			        if (segmentLength > 0)
+			        {
+			            if(sb == null)
+                            sb = new StringBuilder(str.Length);
+			            sb.Append(str, start, segmentLength);
+			            sb.Append(' ');
+			        }
+                    start = i + 1;
+                }
+            }
 
-			if (sb == null)
-			{
-				if (prevWhitespace) // ends with a whitespace
-					return str.Substring(0, str.Length - 1);
-				return str;
-			}
+		    if (sb == null)
+		    {
+		        if (start == 0)
+		            return str;
+		        return str.Substring(start);
+		    }
 
-			if (prevWhitespace)
-				i--;
+            if (i > start)
+                sb.Append(str, start, i - start);
 
-			if (i > start)
-				sb.Append(str, start, i - start);
+            if (sb[sb.Length - 1] == ' ')
+		        sb.Remove(sb.Length - 1, 1);
 
 			return sb.ToString();
 		}

@@ -44,16 +44,21 @@ namespace CalbucciLib.ExtensionsGalore.Tests
         {
             string[] testStrings = new[]
             {
-                " a", "a",
                 null, null,
                 "", "",
                 " ", "",
                 "a", "a",
                 "a ", "a",
+                " a", "a",
                 "a b", "a b",
-                "a  b", "a b",
                 " a  b", "a b",
-                "\r\n a \t\r\n b\r\n\t", "a b"
+                "a  b", "a b",
+                "a\nb", "a b",
+                "a\r\nb", "a b",
+                "\t\r a \t\r b \t\n", "a b",
+                "a\t\r", "a",
+                "\t\ra", "a",
+                "\r\n a \t\r\n b\r\n\t", "a b",
             };
 
             for (int i = 0; i < testStrings.Length; i += 2)
