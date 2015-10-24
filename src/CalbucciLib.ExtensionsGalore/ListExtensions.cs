@@ -58,6 +58,79 @@ namespace CalbucciLib.ExtensionsGalore
 			return ToSeparatedLine(fields, "\t", removeEmptyEntries, s => StringExtensions.EscapeTabDelimited(s, true));
 		}
 
+	    public static string ToString<T>(this IList<T> items, string separator, string lastSeparator = null)
+	    {
+	        if (items == null)
+	            return "";
+
+	        var nonNullItems = items.Where(item => item != null).ToList();
+
+            if(nonNullItems.Count == 0)
+	            return "";
+
+	        if (nonNullItems.Count == 1)
+	            return nonNullItems[0].ToString();
+
+	        if (nonNullItems.Count == 2)
+	            return string.Concat(nonNullItems[0], lastSeparator, nonNullItems[1]);
+
+	        if (lastSeparator == null)
+	            lastSeparator = separator;
+
+	        if (typeof (T) == typeof (string))
+	        {
+	            int totalLength = 0;
+	            foreach (var item in nonNullItems)
+	            {
+	                totalLength = (item as string).Length + separator.Length;
+	            }
+	            totalLength += lastSeparator.Length - separator.Length;
+
+                StringBuilder sb = new StringBuilder(totalLength);
+	            for (int i = 0; i < nonNullItems.Count; i++)
+	            {
+	                if (i == nonNullItems.Count - 1)
+	                {
+	                    sb.Append(lastSeparator);
+	                }
+                    else if (i > 0)
+                    {
+                        sb.Append(separator);
+                    }
+	                sb.Append(nonNullItems[i]);
+	            }
+	            return sb.ToString();
+	        }
+	        else
+	        {
+                int totalLength = 0;
+                List<string> stringList = new List<string>(nonNullItems.Count);
+	            foreach (var item in nonNullItems)
+	            {
+	                var stringItem = item.ToString();
+                    stringList.Add(stringItem);
+                    totalLength = stringItem.Length + separator.Length;
+                }
+                totalLength += lastSeparator.Length - separator.Length;
+
+                StringBuilder sb = new StringBuilder(totalLength);
+                for (int i = 0; i < stringList.Count; i++)
+                {
+                    if (i == stringList.Count - 1)
+                    {
+                        sb.Append(lastSeparator);
+                    }
+                    else if (i > 0)
+                    {
+                        sb.Append(separator);
+                    }
+                    sb.Append(stringList[i]);
+                }
+                return sb.ToString();
+
+            }
+
+        }
 		
 
 		// ====================================================================

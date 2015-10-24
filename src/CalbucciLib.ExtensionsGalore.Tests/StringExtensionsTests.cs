@@ -71,14 +71,6 @@ namespace CalbucciLib.ExtensionsGalore.Tests
             }
         }
 
-        [TestMethod()]
-        public void TrimInBetween_Reference_Test()
-        {
-            string str = "abc def ghi";
-            string str2 = str.TrimInBetween();
-
-            Assert.IsTrue(object.ReferenceEquals(str, str2));
-        }
 
         [TestMethod()]
         public void ToListFromCsvLineTest()
@@ -1558,6 +1550,47 @@ namespace CalbucciLib.ExtensionsGalore.Tests
                 string actual = tests[i].HtmlEncodePre();
                 Assert.AreEqual(expected, actual);
             }
+
+        }
+
+        [TestMethod()]
+        public void IndexOfAnyTest()
+        {
+            List<Tuple<string, string[], int>> tests = new List<Tuple<string, string[], int>>
+            {
+                Tuple.Create("", (string[]) null, -1),
+                Tuple.Create(" ", (string[]) null, -1),
+                Tuple.Create("abc", (string[]) null, -1),
+
+                Tuple.Create("", new[] {""}, -1),
+                Tuple.Create("", new[] {(string) null}, -1),
+                Tuple.Create("", new[] {"abc"}, -1),
+                Tuple.Create((string) null, new[] {"abc"}, -1),
+                Tuple.Create("", new[] {"abc", ""}, -1),
+
+
+                Tuple.Create("a", new[] {"a"}, 0),
+                Tuple.Create("ab", new[] {"ab"}, 0),
+                Tuple.Create("ab", new[] {"b", "a"}, 0),
+                Tuple.Create("ab", new[] {"b", "c"}, 1),
+
+
+                Tuple.Create("http://et.com phone https://home", new[] {"http://", "https://"}, 0),
+                Tuple.Create("http://et.com phone https://home", new[] {"https://", "HTTP://"}, 0),
+                Tuple.Create("http://et.com phone https://home", new[] {"https://", "ftp://"}, 20),
+
+
+            };
+
+            foreach (var test in tests)
+            {
+                var expected = test.Item3;
+                var actual = test.Item1.IndexOfAny(test.Item2);
+                Assert.AreEqual(expected, actual, test.Item1);
+            }
+
+
+
 
         }
     }

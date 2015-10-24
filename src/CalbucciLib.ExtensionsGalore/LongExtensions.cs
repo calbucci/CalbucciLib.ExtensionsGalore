@@ -130,6 +130,57 @@ namespace CalbucciLib.ExtensionsGalore
 
 		}
 
+	    public static string ToRoundNumber(this long l, int maxDecimalPlaces = 2)
+	    {
+            if (l == 0)
+                return "0";
+
+            if (maxDecimalPlaces < 0)
+                maxDecimalPlaces = 0;
+            else if (maxDecimalPlaces > 2)
+                maxDecimalPlaces = 2;
+
+            string prefixMinus = null;
+            if (l < 0)
+            {
+                prefixMinus = "- ";
+                l = -l;
+            }
+            if (l < 1000)
+                return prefixMinus + l.ToString();
+
+            double d = (l / 1000.0);
+            int metricPos = 1; // kilo
+
+            while (d > 1000)
+            {
+                metricPos++;
+                d = d / 1000.0;
+            }
+
+            string number;
+            if (d > 100 || maxDecimalPlaces == 0)
+            {
+                number = d.ToString("F0");
+            }
+            else if (d > 10 || maxDecimalPlaces == 1) // 1-digit
+            {
+                number = d.ToString("F1");
+                if (number.EndsWith(".0"))
+                    number = number.Substring(0, number.Length - 2);
+            }
+            else
+            {
+                number = d.ToString("F2");
+                if (number.EndsWith(".00"))
+                    number = number.Substring(0, number.Length - 3);
+                else if (number.EndsWith("0"))
+                    number = number.Substring(0, number.Length - 1);
+            }
+            //2-digit
+            return prefixMinus + number + _MetricPrefix[metricPos];
+        }
+
 		public static string ToRoundedMemorySize(this long l, int maxDecimalPlaces = 2)
 		{
 			if (l == 0)

@@ -48,13 +48,30 @@ namespace CalbucciLib.ExtensionsGalore
 			}
 		}
 
+        // ==========================================================================
+        //
+        //    Static
+        //
+        // ==========================================================================
+	    static public int GetHashCode(params string[] strings)
+	    {
+	        int hash = 0;
+	        foreach (var str in strings)
+	        {
+	            if (str == null)
+	                continue;
+	            hash = ((hash << 5) + hash) ^ str.GetHashCode();
+	        }
+	        return hash;
+	    }
 
-		// ==========================================================================
-		//
-		//    Create string
-		//
-		// ==========================================================================
-		public static string GenerateLoremIpsum(int wordCount)
+
+        // ==========================================================================
+        //
+        //    Create string
+        //
+        // ==========================================================================
+        public static string GenerateLoremIpsum(int wordCount)
 		{
 			if (wordCount <= 0)
 				return "";
@@ -651,6 +668,47 @@ namespace CalbucciLib.ExtensionsGalore
 
 			return chars.Any(c => str[0] == c);
 		}
+
+	    public static int IndexOfAny(this String str, IList<string> matchList, int start = 0, int count = int.MaxValue,
+	        StringComparison stringComparsion = StringComparison.InvariantCultureIgnoreCase)
+	    {
+	        if (matchList == null || matchList.Count == 0)
+	            return -1;
+
+            matchList = matchList.Where(i => !string.IsNullOrEmpty(i)).ToList();
+	        if (matchList.Count == 0)
+	            return -1;
+
+	        int longest = matchList.Max(i => i.Length);
+	        int shortest = matchList.Min(i => i.Length);
+
+	        if (string.IsNullOrEmpty(str) || (start + shortest) > str.Length)
+	            return -1;
+
+	        int end;
+	        if (count == int.MaxValue)
+	            end = str.Length;
+	        else
+	        {
+                end = start + count - shortest;
+	            if (end > str.Length)
+	                end = str.Length;
+	        }
+
+	        for (int i = start; i < end; i++)
+	        {
+	            foreach (var ml in matchList)
+	            {
+                    if (i + ml.Length > str.Length)
+                        continue;
+
+	                if (string.Compare(str, i, ml, 0, ml.Length, stringComparsion) == 0)
+	                    return i;
+	            }
+	        }
+
+	        return -1;
+	    }
 
 		public static bool EndsWithAny(this String str, IList<string> matchList,
 			StringComparison stringComparison = StringComparison.InvariantCultureIgnoreCase)

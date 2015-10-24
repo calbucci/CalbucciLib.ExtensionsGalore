@@ -26,7 +26,7 @@ namespace CalbucciLib.ExtensionsGalore.Tests
 			foreach (var tzi in TimeZoneInfo.GetSystemTimeZones())
 			{
 				string olson = tzi.ToOlsonTimeZone();
-				Assert.IsNotNull(olson, tzi.Id);
+				Assert.IsNotNull(olson, "{0} {1}", tzi.Id, tzi.BaseUtcOffset);
 			}
 
 			string[] tests = new[]
