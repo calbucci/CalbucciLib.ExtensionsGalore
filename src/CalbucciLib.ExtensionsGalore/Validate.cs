@@ -32,11 +32,34 @@ namespace CalbucciLib.ExtensionsGalore
 
 		static private string _ValidPhoneNumberSymbols = " .-()#_+";
 		static private Dictionary<string, string> _USAreaCodes;
+        private static HashSet<string> _NotValidTwitterAccounts;
 
-		static Validate()
+
+        static Validate()
 		{
-			// http://www.bennetyee.org/ucsd-pages/area.html
-			string[] allAreaCodesZone1 = new string[]
+            _NotValidTwitterAccounts = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
+            {
+                "about",
+                "favorites",
+                "followers",
+                "following",
+                "hashtag",
+                "i",
+                "intent",
+                "messages",
+                "privacy",
+                "search",
+                "search-advanced",
+                "search-home",
+                "settings",
+                "signin",
+                "signup",
+                "tos",
+                "who_to_follow",
+            };
+
+            // http://www.bennetyee.org/ucsd-pages/area.html
+            string[] allAreaCodesZone1 = new string[]
 			{
 				"201","202","203","204","205","206","207","208","209","210","211","212","213","214","215","216","217","218","219","224","225","226","228","229","231","234","236","239","240","242","246","248",
 				"250","251","252","253","254","256","260","262","264","267","268","269","270","276","278","281","283","284","289",
@@ -630,7 +653,10 @@ namespace CalbucciLib.ExtensionsGalore
 				return false;
 			}
 
-			return true;
+		    if (start == 1)
+		        twitterUsername = twitterUsername.Substring(1);
+
+		    return !_NotValidTwitterAccounts.Contains(twitterUsername);
 		}
 
 		/// <summary>
