@@ -140,8 +140,11 @@ namespace CalbucciLib.ExtensionsGalore
 		// ====================================================================
 		public static List<T> Randomize<T>(this IList<T> list, int seed = -1)
 		{
-			if (list == null || list.Count <= 1)
+			if (list == null || list.Count == 0)
 				return new List<T>();
+
+		    if (list.Count == 1)
+		        return new List<T>(list);
 
 			Random rng = (seed >= 0) ? new Random(seed) : new Random();
 

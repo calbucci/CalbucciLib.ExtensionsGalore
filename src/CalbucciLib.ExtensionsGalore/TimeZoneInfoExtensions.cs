@@ -825,6 +825,9 @@ namespace CalbucciLib.ExtensionsGalore
             _WindowsToOlson["Korea Standard Time"] = new[]
             {
                 "Asia/Seoul",
+            };
+            _WindowsToOlson["North Korea Standard Time"] = new[]
+            {
                 "Asia/Pyongyang",
             };
             _WindowsToOlson["Line Islands Standard Time"] = new[]
