@@ -160,7 +160,7 @@ namespace CalbucciLib.ExtensionsGalore
 				}
 				if (delta < 5400) // 90 * 60
 				{
-					return "in one hour ago";
+					return "in one hour";
 				}
 				if (delta < 86400) // 24 * 60 * 60
 				{
