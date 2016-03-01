@@ -53,7 +53,7 @@ namespace CalbucciLib.ExtensionsGalore
         //    Static
         //
         // ==========================================================================
-	    static public int GetHashCode(params string[] strings)
+	    public static int GetHashCode(params string[] strings)
 	    {
 	        int hash = 0;
 	        foreach (var str in strings)
@@ -1468,22 +1468,22 @@ namespace CalbucciLib.ExtensionsGalore
 		}
 
 
-		static public byte[] ToBytesFromBase64(this String str)
+		public static byte[] ToBytesFromBase64(this String str)
 		{
 			return Convert.FromBase64String(str);
 		}
 
-		static public byte[] ToBytesFromBase62(this String str)
+		public static byte[] ToBytesFromBase62(this String str)
 		{
 			return ByteArrayExtensions.FromBase62(str);
 		}
 
-		static public byte[] ToBytesFromHex(this String str)
+		public static byte[] ToBytesFromHex(this String str)
 		{
 			return ByteArrayExtensions.FromHexEncoding(str);
 		}
 
-		static public int ToInt(this String str)
+		public static int ToInt(this String str)
 		{
 			var l = str.ToLong();
 			if (l > (long) int.MaxValue || l < (long) int.MinValue)
@@ -1491,7 +1491,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return (int) l;
 		}
 
-		static public long ToLong(this String str)
+		public static long ToLong(this String str)
 		{
 			if (string.IsNullOrWhiteSpace(str))
 				return 0;
@@ -1560,7 +1560,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return l;
 		}
 
-		static public double ToDouble(this String str)
+		public static double ToDouble(this String str)
 		{
 			if(string.IsNullOrWhiteSpace(str))
 				return 0.0;
@@ -1637,7 +1637,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return 0;
 		}
 
-		static public float ToFloat(this String str)
+		public static float ToFloat(this String str)
 		{
 			if (string.IsNullOrWhiteSpace(str))
 				return (float)0.0;
@@ -1713,7 +1713,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return 0;
 		}
 
-		static public decimal ToDecimal(this String str)
+		public static decimal ToDecimal(this String str)
 		{
 			if (string.IsNullOrWhiteSpace(str))
 				return 0;
@@ -1790,7 +1790,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return 0;
 		}
 
-		static public T ToEnum<T>(this string value, T defaultValue = default(T))
+		public static T ToEnum<T>(this string value, T defaultValue = default(T))
 		{
 			if (string.IsNullOrWhiteSpace(value))
 				return defaultValue;
@@ -1807,7 +1807,7 @@ namespace CalbucciLib.ExtensionsGalore
 			}
 		}
 
-		static public List<string> ToListFromCsvLine(this String str)
+		public static List<string> ToListFromCsvLine(this String str)
 		{
 			return ToListFromDelimiterLine(str, ',',  '\0', s => UnescapeCSVField(s != null ? s.Trim() : ""));
 
@@ -1815,7 +1815,7 @@ namespace CalbucciLib.ExtensionsGalore
 
 
 
-		static public List<string> ToListFromTabDelimitedLine(this String str, bool trimWhitespaces = false)
+		public static List<string> ToListFromTabDelimitedLine(this String str, bool trimWhitespaces = false)
 		{
 			//if (string.IsNullOrWhiteSpace(str))
 			//	return null;
@@ -1826,7 +1826,7 @@ namespace CalbucciLib.ExtensionsGalore
 		}
 
 
-		static private List<string> ToListFromDelimiterLine(String str, char delimiter, char unescapedSlashDelim, Func<string, string> unescapeFunc )
+		private static List<string> ToListFromDelimiterLine(String str, char delimiter, char unescapedSlashDelim, Func<string, string> unescapeFunc )
 		{
 			if (string.IsNullOrEmpty(str))
 				return null;
@@ -1906,7 +1906,7 @@ namespace CalbucciLib.ExtensionsGalore
 
 
 
-		static private string EscapeCharacters(string str, string charsToEscape, string[] escapedChars, bool xEncodeSub32)
+		private static string EscapeCharacters(string str, string charsToEscape, string[] escapedChars, bool xEncodeSub32)
 		{
 			if (string.IsNullOrEmpty(str))
 				return str;

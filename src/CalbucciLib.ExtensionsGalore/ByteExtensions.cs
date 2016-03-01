@@ -42,7 +42,7 @@ namespace CalbucciLib.ExtensionsGalore
 		//
 		// ==========================================================================
 
-		static public byte FromHex(string str)
+		public static byte FromHex(string str)
 		{
 			if (str == null)
 				return 0;
@@ -74,7 +74,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return (byte)((b1 << 4) + b2);
 		}
 
-		static public string ToHex(this byte b)
+		public static string ToHex(this byte b)
 		{
 			return b.ToString("x2");
 		}

@@ -20,7 +20,7 @@ namespace CalbucciLib.ExtensionsGalore
 			Alpha = 1.0;
 		}
 
-		static public Hsl FromHsl(double hue, double saturation, double luminosity)
+		public static Hsl FromHsl(double hue, double saturation, double luminosity)
 		{
 			var hsl = new Hsl
 			{
@@ -32,7 +32,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return hsl;
 		}
 
-		static public Hsl FromAhsl(double alpha, double hue, double saturation, double luminosity)
+		public static Hsl FromAhsl(double alpha, double hue, double saturation, double luminosity)
 		{
 			var hsl = new Hsl
 			{

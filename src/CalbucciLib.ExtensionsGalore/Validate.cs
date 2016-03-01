@@ -26,12 +26,12 @@ namespace CalbucciLib.ExtensionsGalore
 		/// </summary>
 		MDY
 	}
-	static public class Validate
+	public static class Validate
 	{
 		private static HashSet<string> _TLDs;
 
-		static private string _ValidPhoneNumberSymbols = " .-()#_+";
-		static private Dictionary<string, string> _USAreaCodes;
+		private static string _ValidPhoneNumberSymbols = " .-()#_+";
+		private static Dictionary<string, string> _USAreaCodes;
         private static HashSet<string> _NotValidTwitterAccounts;
 
 
@@ -376,7 +376,7 @@ namespace CalbucciLib.ExtensionsGalore
 			foreach (var ctld in ctlds)
 				_TLDs.Add(ctld);
 		}
-		static public bool IsValidEmail(string email)
+		public static bool IsValidEmail(string email)
 		{
 			if (string.IsNullOrWhiteSpace(email))
 				return false;
@@ -427,7 +427,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return IsValidDomain(domain, true);
 		}
 
-		static public bool IsValidLink(string link, bool acceptRelative = false)
+		public static bool IsValidLink(string link, bool acceptRelative = false)
 		{
 			try
 			{
@@ -469,7 +469,7 @@ namespace CalbucciLib.ExtensionsGalore
 			}
 		}
 
-		static public bool IsValidDomain(string domainName, bool internetValid = true)
+		public static bool IsValidDomain(string domainName, bool internetValid = true)
 		{
 			if (domainName == null || domainName.Length < 4)
 				return false;
@@ -513,7 +513,7 @@ namespace CalbucciLib.ExtensionsGalore
 
 		}
 
-		static public bool IsValidUSPhoneNumber(string phoneNumber, bool withAreaCode = true)
+		public static bool IsValidUSPhoneNumber(string phoneNumber, bool withAreaCode = true)
 		{
 			if (String.IsNullOrWhiteSpace(phoneNumber))
 				return false;
@@ -571,7 +571,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return true;
 		}
 
-		static public bool IsValidPhoneNumber(string phoneNumber)
+		public static bool IsValidPhoneNumber(string phoneNumber)
 		{
 			if (string.IsNullOrWhiteSpace(phoneNumber))
 				return false;
@@ -600,7 +600,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return digitCount >= 6 && digitCount <= 14;
 		}
 
-		static public bool IsValidBase64String(string base64String)
+		public static bool IsValidBase64String(string base64String)
 		{
 			if (string.IsNullOrEmpty(base64String))
 				return true;
@@ -621,13 +621,13 @@ namespace CalbucciLib.ExtensionsGalore
 			return true;
 		}
 
-		static public bool IsValidHtmlColor(string htmlColor)
+		public static bool IsValidHtmlColor(string htmlColor)
 		{
 			var color = ColorExtensions.ToColor(htmlColor);
 			return color != null;
 		}
 
-		static public bool IsValidTwitterUsername(string twitterUsername)
+		public static bool IsValidTwitterUsername(string twitterUsername)
 		{
 			if (string.IsNullOrWhiteSpace(twitterUsername))
 				return false;
@@ -664,7 +664,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// </summary>
 		/// <param name="email"></param>
 		/// <returns></returns>
-		static public bool IsValidMailToAddress(string email)
+		public static bool IsValidMailToAddress(string email)
 		{
 			int ltp = email.IndexOf('<');
 			if (ltp >= 0)
@@ -695,7 +695,7 @@ namespace CalbucciLib.ExtensionsGalore
 			return IsValidEmail(email);
 		}
 
-		static public bool IsValidDomainTLD(string tld)
+		public static bool IsValidDomainTLD(string tld)
 		{
 			if (string.IsNullOrWhiteSpace(tld) || tld.Length < 2)
 				return false;
@@ -713,7 +713,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// <summary>
 		/// Validates if the string contains a GUID
 		/// </summary>
-		static public bool IsValidGuid(string guid)
+		public static bool IsValidGuid(string guid)
 		{
 			try
 			{
@@ -731,7 +731,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// </summary>
 		/// <param name="ipAddress"></param>
 		/// <returns></returns>
-		static public bool IsValidIPv4(string ipAddress)
+		public static bool IsValidIPv4(string ipAddress)
 		{
 			if (string.IsNullOrWhiteSpace(ipAddress))
 				return false;
@@ -751,7 +751,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// <summary>
 		/// Validates if the string contains a well-formed IP address v6
 		/// </summary>
-		static public bool IsValidIPv6(string ipAddress)
+		public static bool IsValidIPv6(string ipAddress)
 		{
 			if (string.IsNullOrWhiteSpace(ipAddress))
 				return false;
@@ -766,7 +766,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// <summary>
 		/// Validates if the string contains an IP Address v4 or v6
 		/// </summary>
-		static public bool IsValidIP(string ipAddress)
+		public static bool IsValidIP(string ipAddress)
 		{
 			if (string.IsNullOrWhiteSpace(ipAddress))
 				return false;
@@ -781,7 +781,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// <summary>
 		/// Validates a time string
 		/// </summary>
-		static public bool IsValidTime(string timeString)
+		public static bool IsValidTime(string timeString)
 		{
 			var time = DateTimeExtensions.ParseTime(timeString);
 			return time != null;
@@ -790,7 +790,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// <summary>
 		/// Validates a date string (using Gregorian calendar)
 		/// </summary>
-		static public bool IsValidDate(string dateString, DatePartsOrder datePartsOrder = DatePartsOrder.MDY)
+		public static bool IsValidDate(string dateString, DatePartsOrder datePartsOrder = DatePartsOrder.MDY)
 		{
 			if (string.IsNullOrWhiteSpace(dateString))
 				return false;

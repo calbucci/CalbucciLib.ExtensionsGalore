@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace CalbucciLib.ExtensionsGalore
 {
-	static public class UIntExtensions
+	public static class UIntExtensions
 	{
-		static public string ToLiteral(this uint u)
+		public static string ToLiteral(this uint u)
 		{
 			return ((long) u).ToLiteral();
 		}
 
-		static public int CountBits(this uint u)
+		public static int CountBits(this uint u)
 		{
 			if (u == 0)
 				return 0;

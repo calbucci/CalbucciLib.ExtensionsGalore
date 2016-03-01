@@ -19,7 +19,7 @@ namespace CalbucciLib.ExtensionsGalore
 		ToYears
 	};
 
-	static public class DateTimeExtensions
+	public static class DateTimeExtensions
 	{
 		private static readonly string[] _AMDesignators =
 		{
@@ -37,9 +37,9 @@ namespace CalbucciLib.ExtensionsGalore
 			"yamma", "ale", "efifie", "ꂵꆪꈌꉈ", "چۈشتىن كېيىن", "saa moya z.n.", "f"
 		};
 
-		static private DateTime _UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
-		static private DateTime _UnixEpochLocal = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local);
-		static private DateTime _UnixEpochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+		private static DateTime _UnixEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Unspecified);
+		private static DateTime _UnixEpochLocal = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Local);
+		private static DateTime _UnixEpochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
 		private static Calendar _DefaultCalendar;
 
@@ -54,7 +54,7 @@ namespace CalbucciLib.ExtensionsGalore
 		//    Parse
 		//
 		// ==========================================================================
-		static public DateTime? ParseTime(string time)
+		public static DateTime? ParseTime(string time)
 		{
 			if (string.IsNullOrWhiteSpace(time))
 				return null;
@@ -118,7 +118,7 @@ namespace CalbucciLib.ExtensionsGalore
 		//    Conversion
 		//
 		// ==========================================================================
-		static public DateTime FromUnixTime(long unixTime, DateTimeKind kind = DateTimeKind.Unspecified)
+		public static DateTime FromUnixTime(long unixTime, DateTimeKind kind = DateTimeKind.Unspecified)
 		{
 			if (kind == DateTimeKind.Local)
 				return _UnixEpochLocal.AddSeconds(unixTime);
@@ -127,12 +127,12 @@ namespace CalbucciLib.ExtensionsGalore
 			return _UnixEpoch.AddSeconds(unixTime);
 		}
 
-		static public long ToUnixTime(this DateTime dateTime)
+		public static long ToUnixTime(this DateTime dateTime)
 		{
 			return (long)((dateTime - _UnixEpoch).TotalSeconds);
 		}
 
-		static public string ToRelativeTime(this DateTime utcDateTime, DateTime? baseDate = null)
+		public static string ToRelativeTime(this DateTime utcDateTime, DateTime? baseDate = null)
 		{
 			if (baseDate == null)
 				baseDate = DateTime.UtcNow;

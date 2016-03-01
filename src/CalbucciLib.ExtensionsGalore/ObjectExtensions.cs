@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CalbucciLib.ExtensionsGalore
 {
-	static public class ObjectExtensions
+	public static class ObjectExtensions
 	{
 		private static ConcurrentDictionary<Type, FieldInfo[]> _FieldMap;
 
@@ -19,7 +19,7 @@ namespace CalbucciLib.ExtensionsGalore
 			_FieldMap = new ConcurrentDictionary<Type, FieldInfo[]>();
 		}
 
-		static private FieldInfo[] GetFieldsFromType(Type type)
+		private static FieldInfo[] GetFieldsFromType(Type type)
 		{
 			FieldInfo[] fields = null;
 			if (_FieldMap.TryGetValue(type, out fields))
@@ -37,7 +37,7 @@ namespace CalbucciLib.ExtensionsGalore
 		/// <param name="obj"></param>
 		/// <param name="preferICloneable"></param>
 		/// <returns></returns>
-		static public object DeepCopy(this object obj, bool preferICloneable = false)
+		public static object DeepCopy(this object obj, bool preferICloneable = false)
 		{
 			// Improved from: http://www.codeproject.com/Articles/38270/Deep-copy-of-objects-in-C
 
