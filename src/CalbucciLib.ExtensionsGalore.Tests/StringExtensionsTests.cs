@@ -1589,10 +1589,81 @@ namespace CalbucciLib.ExtensionsGalore.Tests
                 Assert.AreEqual(expected, actual, test.Item1);
             }
 
-
-
-
         }
+
+        [TestMethod]
+        public void HtmlifyTest()
+        {
+            string[] tests = new[]
+            {
+                null, "",
+                "", "",
+                "abc", "abc",
+                "a&b", "a&amp;b",
+                "<test>", "&lt;test&gt;",
+                "abc.com", "<a href=\"http://abc.com\">abc.com</a>",
+                "www.nyt.com", "<a href=\"http://www.nyt.com\">www.nyt.com</a>",
+                "http://calbucci.com", "<a href=\"http://calbucci.com\">calbucci.com</a>",
+                "Go to abc.com", "Go to <a href=\"http://abc.com\">abc.com</a>",
+                "Join abc.com or def.com.", "Join <a href=\"http://abc.com\">abc.com</a> or <a href=\"http://def.com\">def.com</a>.",
+            };
+
+            for (int i = 0; i < tests.Length; i += 2)
+            {
+                var expected = tests[i + 1];
+                var actual = tests[i].Htmlify();
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void HtmlifyWithExtensionTest()
+        {
+            string[] tests = new[]
+            {
+                null, "",
+                "", "",
+                "abc", "abc",
+                "a&b", "a&amp;b",
+                "<test>", "&lt;test&gt;",
+                "abc.com", "<a href=\"http://abc.com\">abc.com</a>",
+                "www.nyt.com", "<a href=\"http://www.nyt.com\">www.nyt.com</a>",
+                "http://calbucci.com", "<a href=\"http://calbucci.com\">calbucci.com</a>",
+                "Go to abc.com", "Go to <a href=\"http://abc.com\">abc.com</a>",
+                "Join abc.com or def.com.", "Join <a href=\"http://abc.com\">abc.com</a> or <a href=\"http://def.com\">def.com</a>.",
+                "This #test", "This <a href=\"https://twitter.com/hashtag/test\">#test</a>",
+                "This #bad-hash", "This #bad-hash",
+                "This #good!", "This <a href=\"https://twitter.com/hashtag/good\">#good</a>!",
+            };
+
+            Func<string, string> hashfier = (token) =>
+            {
+                if (!token.StartsWith("#") || token.Length < 3)
+                    return StringExtensions.DefaultLinkifier(token);
+
+                char lastChar = token[token.Length - 1];
+                string suffix = null;
+                if (".?!),([]{};:'\"<>".Contains(lastChar))
+                {
+                    token = token.Substring(0, token.Length - 1);
+                    suffix = lastChar.ToString();
+                }
+
+                string hash = token.Substring(1);
+                if (hash.IndexOfNonLetterOrDigit(1) >= 0)
+                    return StringExtensions.DefaultLinkifier(token);
+
+                return $"<a href=\"https://twitter.com/hashtag/{hash}\">{token}</a>" + suffix;
+            };
+
+            for (int i = 0; i < tests.Length; i += 2)
+            {
+                var expected = tests[i + 1];
+                var actual = tests[i].Htmlify(hashfier);
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
     }
 
 }

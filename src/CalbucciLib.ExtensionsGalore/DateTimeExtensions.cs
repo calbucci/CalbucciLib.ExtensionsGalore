@@ -170,11 +170,11 @@ namespace CalbucciLib.ExtensionsGalore
 				{
 					return "in one day";
 				}
-				if (delta < 2592000) // 30 * 24 * 60 * 60
+				if (delta < 28 * 24 * 60 * 60) // 28 * 24 * 60 * 60
 				{
 					return "in " +  ts.Days + " days";
 				}
-				if (delta < 31104000) // 12 * 30 * 24 * 60 * 60
+				if (delta < 12 * 29 * 24 * 60 * 60) // 12 * 29 * 24 * 60 * 60
 				{
 					var months = Convert.ToInt32(Math.Floor((double)ts.Days / 30));
 					return "in " + ((months <= 1) ? "one month" : months + " months");
@@ -211,7 +211,7 @@ namespace CalbucciLib.ExtensionsGalore
 			{
 				return "one day ago";
 			}
-			if (delta < 2592000) // 30 * 24 * 60 * 60
+			if (delta < 29 * 24 * 60 * 60) // 29 * 24 * 60 * 60
 			{
 				return ts.Days + " days ago";
 			}

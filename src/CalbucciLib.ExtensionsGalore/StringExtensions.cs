@@ -11,7 +11,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.ModelBinding;
-using Microsoft.SqlServer.Server;
 using Microsoft.Win32.SafeHandles;
 
 namespace CalbucciLib.ExtensionsGalore
@@ -32,6 +31,8 @@ namespace CalbucciLib.ExtensionsGalore
 
 
 		private static readonly List<string> _TypicalHomepages;
+
+	    public static string DefaultHtmlifyLinkAttributes { get; set; }
 
 		static StringExtensions()
 		{
@@ -174,6 +175,105 @@ namespace CalbucciLib.ExtensionsGalore
 
 			return HttpUtility.UrlDecode(str);
 		}
+
+	    public static string DefaultLinkifier(string token)
+	    {
+	        if (token.Length < 5)
+	            return null;
+
+	        Func<string, string, string> buildLink = (string link, string text) =>
+	        {
+                if (!String.IsNullOrWhiteSpace(DefaultHtmlifyLinkAttributes))
+                    return $"<a href=\"{link}\" {DefaultHtmlifyLinkAttributes}>{text}</a>";
+                return $"<a href=\"{link}\">{text}</a>";
+            };
+
+	        char lastChar = token[token.Length - 1];
+            string suffix = null;
+	        if (".?!),([]{};:'\"<>".Contains(lastChar))
+	        {
+	            token = token.Substring(0, token.Length - 1);
+	            suffix = lastChar.ToString();
+	        }
+
+	        if (token.StartsWith("http://") || token.StartsWith("https://"))
+	        {
+                if (token.Length < 12)
+                    return null;
+                return buildLink(token, token.TruncateTrimLink(150)) + suffix;
+
+            }
+            if (token.StartsWith("www."))
+            {
+                if (token.Length < 10)
+                    return null;
+                var link = "http://" + token;
+                if (!Uri.IsWellFormedUriString(link, UriKind.Absolute))
+                    return null;
+
+                return buildLink(link, token) + suffix;
+            }
+
+            if (token.Contains('.'))
+            {
+                var link = "http://" + token;
+                if (!Uri.IsWellFormedUriString(link, UriKind.Absolute))
+                    return null;
+                try
+                {
+                    Uri uri = new Uri(link);
+                    if (!Validate.IsValidDomain(uri.Host, true))
+                        return null;
+                }catch { }
+
+                return buildLink(link, token) + suffix;
+            }
+
+            return null;
+
+	        
+	    }
+
+	    public static string Htmlify(this string str, Func<string, string> tokenHtmlifier = null)
+	    {
+	        if (string.IsNullOrWhiteSpace(str))
+	            return "";
+
+	        if (tokenHtmlifier == null)
+                tokenHtmlifier = DefaultLinkifier;
+
+            bool appendSpace = false;
+
+
+            StringBuilder sb = new StringBuilder(str.Length + 50);
+	        for (int i = 0; i < str.Length; i++)
+	        {
+	            int nextWhitespace = str.IndexOfWhitespace(i);
+	            string token;
+	            if (nextWhitespace == -1)
+	            {
+	                token = str.Substring(i).Trim();
+	                i = str.Length;
+	            }
+	            else
+	            {
+	                token = str.Substring(i, nextWhitespace - i).Trim();
+	                i = nextWhitespace;
+                    appendSpace = true;
+	            }
+
+                if (token.Length == 0)
+                    continue;
+
+	            var html = tokenHtmlifier(token);
+	            sb.Append(html ?? token.HtmlEncode());
+	            if (appendSpace)
+	                sb.Append(' ');
+	        }
+
+            return sb.ToString().Trim();
+
+	    }
 
 
 		// ==========================================================================
@@ -1051,6 +1151,9 @@ namespace CalbucciLib.ExtensionsGalore
 				return sb.ToString().TruncateEllipsis(maxLength);
 
 			string path = uri.PathAndQuery;
+		    if (path == "/")
+		        return sb.ToString();
+
 			string qs = null;
 			int pos = path.IndexOf('?');
 			if (pos > 0)
