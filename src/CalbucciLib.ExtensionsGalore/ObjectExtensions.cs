@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace CalbucciLib.ExtensionsGalore
 {
@@ -283,5 +284,13 @@ namespace CalbucciLib.ExtensionsGalore
 			return null;
 
 		}
+
+	    public static string ToJson(this object obj, bool identation = false)
+	    {
+	        if (obj == null)
+	            return "{}";
+
+	        return JsonConvert.SerializeObject(obj, identation ? Formatting.Indented : Formatting.None);
+	    }
 	}
 }

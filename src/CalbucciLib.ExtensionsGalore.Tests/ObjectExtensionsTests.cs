@@ -531,6 +531,31 @@ namespace CalbucciLib.ExtensionsGalore.Tests
 
 		}
 
+	    [TestMethod()]
+	    public void Object_ToJson()
+	    {
+	        List<Tuple<object, string>> tests = new List<Tuple<object, string>>()
+	        {
+	            Tuple.Create<object, string>(null, "{}"),
+	            Tuple.Create<object, string>(17, "17"),
+	            Tuple.Create<object, string>("hello", "\"hello\""),
+	            Tuple.Create<object, string>(new int[] {1, 3}, "[1,3]"),
+	            Tuple.Create<object, string>(new
+	            {
+	                Hello = "World",
+	                Number = 17
+	            }, "{\"Hello\":\"World\",\"Number\":17}")
+	        };
 
-	}
+	        foreach (var t in tests)
+	        {
+	            var expected = t.Item2;
+	            var actual = t.Item1.ToJson();
+
+	            Assert.AreEqual(expected, actual);
+	        }
+	    }
+
+
+    }
 }
