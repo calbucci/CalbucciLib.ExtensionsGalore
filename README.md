@@ -7,7 +7,7 @@ ExtensionsGalore is a library that extends many of the common types and classes 
 - Comprehensive DeepCopy functionality
 - A billion extensions for DateTime for those that have a hard time with dates like me.
 - Encode / decode string in many formats (CSV, Tab, Json, Textarea, etc) 
-- Language stuff: char.IsVowel/char.IsConsonant, Transliteration, Remove Accents, etc.
+- Language stuff: char.IsVowel/char.IsConsonant, Transliteration, Glyph Mapping, Remove Accents, etc.
 - Number: Literal strings, Roman numbers, Pluralization, etc.
 - Olson Time Zone extensions to TimeZoneInfo
 - Validate: Email, Url, Twitter screenname, Phone Number, Date, Time, etc.
@@ -50,6 +50,8 @@ The best explanation is the source code :). I've added summary meta-data to most
 * **IsASCIILetterOrDigit**: A-Z, a-z or 0-9
 * **RemoveAccent**: Returns the same version of the letter without the accent (ä => a, ñ => n)
 * **Transliterate**: Returns the latin alphabet version of a letter. This is not a great implementation and needs work.
+* **GlyphMap**: Convert characters to the closest latin alphabet visual representation.
+* **GlyphMapAndTransliterate**: Convert characters to the closest latin alphabet visual representation and transliterate them.
 
 
 ----
@@ -167,6 +169,8 @@ The best explanation is the source code :). I've added summary meta-data to most
  * **TruncateTrimLink**: Truncate and trim a link for display purposes ("http://www.twitter.com/calbucci?#" => "twitter.com/calbucci")
 * **RemoveAccents**: Replace accented characters with their non-accented versions ("ação" => "acao")
 * **Transliterate**: (Not a good implementation) Converts non-Latin characters (e.g. Hebrew, Arabic, Greek) into Latin characters.
+* **GlyphMap**: Convert characters to the closest latin alphabet visual representation.
+* **GlyphMapAndTransliterate**: Convert characters to the closest latin alphabet visual representation and transliterate them.
 * **CapitalizeFirstWord**: Capitalize the first word of a sentence.
 * **CapitalizeAllWords**: Capitalize all words in a sentence.
 * **GetFirstWord**: Returns the first word of a sentence.

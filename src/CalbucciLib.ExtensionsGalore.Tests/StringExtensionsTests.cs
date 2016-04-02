@@ -152,7 +152,7 @@ namespace CalbucciLib.ExtensionsGalore.Tests
                 null, null,
                 "", "",
                 "abc", "abc",
-                "São Paulo é ótima", "São Paulo é ótima",
+                "São Paulo é ótima", "Sao Paulo e otima",
                 "שָׁלוֹם", "shalvom",
 				//"Ελλάς", "Greek",
 			};
