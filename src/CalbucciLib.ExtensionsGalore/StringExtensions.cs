@@ -1492,7 +1492,7 @@ namespace CalbucciLib.ExtensionsGalore
                     continue;
                 }
                 var c2 = c.RemoveAccent();
-                var c3 = c2.Transliterate();
+                var c3 = c2.GlyphMapAndTransliterate();
                 foreach (var cc3 in c3)
                 {
                     if (cc3.IsASCIILetterOrDigit())
