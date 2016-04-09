@@ -1084,6 +1084,8 @@ namespace CalbucciLib.ExtensionsGalore.Tests
                 Tuple.Create<string, Func<char, bool>, string>((string)"abc", char.IsLetterOrDigit, (string)""),
                 Tuple.Create<string, Func<char, bool>, string>((string)"a b c", char.IsLetterOrDigit, (string)" b "),
                 Tuple.Create<string, Func<char, bool>, string>((string)" a b c ", char.IsLetterOrDigit, (string)" a b c "),
+                Tuple.Create<string, Func<char, bool>, string>((string)".!a#&b;,", char.IsPunctuation, (string)"a#&b"),
+
             };
 
             foreach (var test in tests)

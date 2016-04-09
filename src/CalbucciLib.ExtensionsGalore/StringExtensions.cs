@@ -1038,9 +1038,6 @@ namespace CalbucciLib.ExtensionsGalore
                 trimStart = i;
             }
 
-            if (trimStart == -1)
-                return str;
-
             trimStart++;
             if (trimStart == str.Length)
                 return "";
@@ -1477,11 +1474,13 @@ namespace CalbucciLib.ExtensionsGalore
             if (string.IsNullOrWhiteSpace(text))
                 return null;
 
+            text = text.GlyphMapAndTransliterate().RemoveAccents();
+
             StringBuilder sb = new StringBuilder(maxLength);
             bool lastSeparator = true;
             foreach (var c in text)
             {
-                if (c <= 32 || char.IsWhiteSpace(c) || char.IsControl(c))
+                if (c <= 32 || char.IsWhiteSpace(c) || char.IsControl(c) || (char.IsSymbol(c) && c != '-'))
                 {
                     if (lastSeparator)
                         continue;
@@ -1491,29 +1490,22 @@ namespace CalbucciLib.ExtensionsGalore
                     sb.Append("-");
                     continue;
                 }
-                var c2 = c.RemoveAccent();
-                var c3 = c2.GlyphMapAndTransliterate();
-                foreach (var cc3 in c3)
+                if (c.IsASCIILetterOrDigit())
                 {
-                    if (cc3.IsASCIILetterOrDigit())
-                    {
-                        sb.Append(cc3);
-                        lastSeparator = false;
-                    }
-                    else if ("_-.~".IndexOf(cc3) >= 0)
-                    {
-                        sb.Append(cc3);
-                        lastSeparator = true;
-                    }
-                    else
-                    {
-                        sb.Append(((int)cc3).ToHex());
-                        lastSeparator = false;
-                    }
-                    if (sb.Length >= maxLength)
-                        break;
-
+                    sb.Append(c);
+                    lastSeparator = false;
                 }
+                else
+                {
+                    sb.Append(((int)c).ToHex());
+                    lastSeparator = false;
+                }
+                if (sb.Length >= maxLength)
+                    break;
+            }
+            if (sb.Length > maxLength)
+            {
+                sb.Remove(maxLength - 1, maxLength - sb.Length);
             }
 
             while (sb.Length > 0 && sb[sb.Length - 1] == '-')
