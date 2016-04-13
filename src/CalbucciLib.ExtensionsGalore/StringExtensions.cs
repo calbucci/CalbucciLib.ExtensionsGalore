@@ -862,6 +862,9 @@ namespace CalbucciLib.ExtensionsGalore
                 if (char.IsWhiteSpace(c1) || char.IsControl(c1))
                     continue;
 
+                if (i2 == str2.Length)
+                    return false;
+
                 char c2 = str2[i2];
                 while (char.IsWhiteSpace(c2) || char.IsControl(c2))
                 {
@@ -880,6 +883,15 @@ namespace CalbucciLib.ExtensionsGalore
 
                 return false;
             }
+
+            while (i2 < str2.Length)
+            {
+                var c2 = str2[i2];
+                if (!char.IsWhiteSpace(c2) && !char.IsWhiteSpace(c2))
+                    return false;
+                i2++;
+            }
+
             return true;
         }
 

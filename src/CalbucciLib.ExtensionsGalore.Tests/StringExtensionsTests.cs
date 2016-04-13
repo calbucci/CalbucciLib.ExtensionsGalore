@@ -477,28 +477,36 @@ namespace CalbucciLib.ExtensionsGalore.Tests
                 " a", "a",
                 "a ", " a ",
                 "\ta\nb\rc", "abc",
-                " A\t b \r C ", "\nab c"
+                " A\t b \r C ", "\nab c",
+                "abc", "abc",
+                "a bc", "abc",
+                "ab c", "abc",
+                "abc", "a bc",
+                "abc", "ab c"
             };
 
             string[] negativeTests = new string[]
             {
                 "", "a",
                 "A", "á",
-                "a\ra", "a\rã"
+                "a\ra", "a\rã",
+                "abcd", "abc",
+                "abc", "abcd"
+
             };
 
             for (int i = 0; i < tests.Length; i += 2)
             {
                 var var1 = tests[i];
                 var var2 = tests[i + 1];
-                Assert.IsTrue(var1.CompareNonWhitespace(var2));
+                Assert.IsTrue(var1.CompareNonWhitespace(var2), $"[{var1}]:[{var2}]");
             }
 
             for (int i = 0; i < negativeTests.Length; i += 2)
             {
                 var var1 = negativeTests[i];
                 var var2 = negativeTests[i + 1];
-                Assert.IsFalse(var1.CompareNonWhitespace(var2), "String: " + var1);
+                Assert.IsFalse(var1.CompareNonWhitespace(var2), $"[{var1}]:[{var2}]");
 
             }
         }
