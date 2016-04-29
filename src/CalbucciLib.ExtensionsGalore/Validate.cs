@@ -46,6 +46,8 @@ namespace CalbucciLib.ExtensionsGalore
                 "hashtag",
                 "i",
                 "intent",
+                "statuses",
+                "status",
                 "messages",
                 "privacy",
                 "search",

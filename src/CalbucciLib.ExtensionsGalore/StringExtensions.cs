@@ -1502,10 +1502,10 @@ namespace CalbucciLib.ExtensionsGalore
                     sb.Append("-");
                     continue;
                 }
-                if (c.IsASCIILetterOrDigit())
+                if (c.IsASCIILetterOrDigit() || c=='-')
                 {
                     sb.Append(c);
-                    lastSeparator = false;
+                    lastSeparator = c == '-';
                 }
                 else
                 {
