@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CalbucciLib.ExtensionsGalore")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Marcelo Calbucci")]
 [assembly: AssemblyProduct("CalbucciLib.ExtensionsGalore")]
 [assembly: AssemblyCopyright("Copyright © Marcelo Calbucci 2015")]
 [assembly: AssemblyTrademark("")]
